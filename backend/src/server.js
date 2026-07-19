@@ -2,6 +2,9 @@ const express = require('express');
 const AuthDB = require('./models/authModel.js')
 const mongoose = require("mongoose");
 
+//Routes
+const AuthRoutes = require('./controllers/authControler.js');
+
 
 const app = express();
 const PORT = 5001;
@@ -11,7 +14,7 @@ app.use(express.urlencoded({ extends: true }));
 
 
 
-app.use('/auth' )
+app.use('/auth',AuthRoutes )
 
 
 
