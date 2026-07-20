@@ -3,8 +3,7 @@ const AuthDB = require('./models/authModel.js')
 const mongoose = require("mongoose");
 
 //Routes
-const AuthRoutes = require('./controllers/authControler.js');
-
+const AuthRoutes = require('./routes/authRoute');
 
 const app = express();
 const PORT = 5001;
