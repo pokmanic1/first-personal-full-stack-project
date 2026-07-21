@@ -29,7 +29,7 @@ const register = async (req, res) => {
 
 
         console.log(name, email, password);
-        const token = generateToken(user.id,res);
+        const token = generateToken(user.id, res);
 
 
         res.status(200).json({
@@ -57,20 +57,6 @@ const register = async (req, res) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const login = async (req, res) => {
     const { email, password } = req.body;
 
@@ -85,7 +71,7 @@ const login = async (req, res) => {
             return res.status(400).json({ message: "invalid password" });
         }
 
-        const token = generateToken(user.id,res);
+        const token = generateToken(user.id, res);
 
         res.status(202).json({
             status: "succes",
@@ -110,4 +96,16 @@ const login = async (req, res) => {
 }
 
 
-module.exports = { register, login };
+const logout = async (req, res) => {
+    res.cookie("jwt", "", {
+        httpOnly: true,
+        expires: new Date(0)
+    })
+
+    res.status(200).json({
+        status: "succes",
+        message: "Logged out successfully",
+    });
+}
+
+module.exports = { register, login,logout };
