@@ -1,3 +1,4 @@
+const config = require('dotenv')
 const express = require('express');
 const AuthDB = require('./models/authModel.js')
 const mongoose = require("mongoose");
@@ -9,9 +10,9 @@ const app = express();
 const PORT = 5001;
 
 app.use(express.json());
-app.use(express.urlencoded({ extends: true }));
+app.use(express.urlencoded({ extended: true }));
 
-
+require('dotenv').config();
 
 app.use('/auth',AuthRoutes )
 

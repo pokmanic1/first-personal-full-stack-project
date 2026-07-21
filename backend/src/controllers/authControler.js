@@ -1,7 +1,7 @@
 const express = require('express');
 const AuthDB = require('../models/authModel.js');
 const bcrypt = require('bcryptjs');
-
+const { generateToken } = require('../utils/generateToken.js');
 const { default: mongoose } = require('mongoose');
 
 
@@ -29,6 +29,7 @@ const register = async (req, res) => {
 
 
         console.log(name, email, password);
+        const token = generateToken(user.id,res);
 
 
         res.status(200).json({
@@ -36,7 +37,7 @@ const register = async (req, res) => {
                 name,
                 email,
                 password: hashedPassword,
-            }
+            }, token
         })
 
 
@@ -79,17 +80,19 @@ const login = async (req, res) => {
             return res.status(400).json({ message: "user dont  exist" })
         }
 
-        const isPasswordValid=await bcrypt.compare(password,user.password)
+        const isPasswordValid = await bcrypt.compare(password, user.password)
         if (!isPasswordValid) {
-        return res.status(400).json({ message: "invalid password" });
-    }
+            return res.status(400).json({ message: "invalid password" });
+        }
+
+        const token = generateToken(user.id,res);
 
         res.status(202).json({
             status: "succes",
             data: {
                 id: user._id,
                 email: email,
-            }
+            }, token
         })
 
     } catch (err) {

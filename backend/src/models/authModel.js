@@ -21,7 +21,7 @@ const authSchema=mongoose.Schema(
 
     },
     {
-        timestamp:true
+        timestamps:true
     }
 )
 
