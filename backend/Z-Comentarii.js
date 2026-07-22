@@ -10,7 +10,7 @@
 //incepem mai intai cu baza de date configurarea schema si conectarea
 
 //.apoi facem sistemul de autentificare
-
+//npm install cookie-parser
 //npm i bcryptjs
 //npm i jsonwebtoken
 
