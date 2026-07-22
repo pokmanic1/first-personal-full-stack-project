@@ -2,12 +2,17 @@ const config = require('dotenv')
 const express = require('express');
 const AuthDB = require('./models/authModel.js')
 const mongoose = require("mongoose");
-const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const cookieParser = require('cookie-parser')
 //Routes
 const AuthRoutes = require('./routes/authRoute');
 
 const app = express();
 const PORT = 5001;
+app.use(cors({
+    origin: 'http://localhost:5173', 
+    credentials: true,            
+}));
 app.use(cookieParser());
 
 app.use(express.json());

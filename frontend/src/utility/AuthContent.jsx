@@ -4,11 +4,11 @@ function AuthContent() {
 
 const [esteLogat, setEsteLogat] = useState(false)
     localStorage.setItem('token',1)
-    useEffect(() => {
-        if (localStorage.getItem('token')) {
-            setEsteLogat(true)
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (localStorage.getItem('token')) {
+    //         setEsteLogat(true)
+    //     }
+    // }, [])
 
     return (
     <>

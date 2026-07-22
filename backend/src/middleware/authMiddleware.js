@@ -1,12 +1,12 @@
 const jwt = require('jsonwebtoken');
 const AuthDB = require('../models/authModel.js')
-const validateToken = async (req, res) => {
+const validateToken = async (req, res,next) => {
     let token;
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         token = req.headers.authorization.split(' ')[1];
     }
-    else if (req.cookie?.jwt) {
-        token = req.cookie.jwt;
+    else if (req.cookies?.jwt) {
+        token = req.cookies.jwt;
     }
     if (!token) {
         return res.status(401).json({ error: "not authorized no token" })
@@ -17,8 +17,7 @@ const validateToken = async (req, res) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         console.log(decoded)
-        const user = await AuthDB.findOne({ id: decoded.id })
-
+        const user = await AuthDB.findById(decoded.id);
         if (!user) {
             return res.status(401).json({ error: "user do not exist" });
         }
