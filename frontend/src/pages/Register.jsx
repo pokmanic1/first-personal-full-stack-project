@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import instance from '../utility/axios';
 
 function Register() {
     const [formData, setFormData] = useState({
@@ -9,13 +10,14 @@ function Register() {
     });
 
     const [eroare, setEroare] = useState('');
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!formData.nume || !formData.email || !formData.parola) {
@@ -28,9 +30,29 @@ function Register() {
             return;
         }
 
-        setEroare('');
+
+        try {
+            const response = await instance.post('/auth/register', {
+                name: formData.nume,
+                email: formData.email,
+                password: formData.parola
+            }).catch(err=>console.log('RAW:',err));
+
+            console.log('Înregistrare reușită:', response.data);
+            navigate('/');
+
+        } catch (err) {
+            console.log('Eroare prinsă în catch:', err);
+
+            const mesajBackend = err.response?.data?.message || 'A apărut o eroare la înregistrare!';
+
+            setEroare(mesajBackend);
+        }
+
+
+
         console.log('Date trimise:', formData);
-        
+
     };
 
     return (

@@ -4,7 +4,7 @@ import Navbar from "./components/NavBar.jsx"
 import Index from './pages/Index.jsx'
 import Login from './pages/Login.jsx'
 import Register from './pages/register.jsx'
-
+import Recenzii from './pages/Recenzii.jsx'
 
 function App() {
     return (

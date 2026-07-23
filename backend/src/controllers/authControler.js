@@ -12,11 +12,10 @@ const register = async (req, res) => {
     const { name, email, password } = req.body;
 
     try {
-        const userFind = await AuthDB.findOne({ email: email })
-        if (userFind) {
-            return res.status(404).json({ message: "user with this emial alredy exist" })
+         const userE = await AuthDB.findOne({ email: email });
+        if (userE) {
+            return res.status(400).json({ message: "user   exist" })
         }
-
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt)
 
@@ -28,7 +27,7 @@ const register = async (req, res) => {
         })
 
 
-        console.log(name, email, password);
+        console.log(`name:${name} , email:${email} , password:${password}`);
         const token = generateToken(user.id, res);
 
 
@@ -43,7 +42,7 @@ const register = async (req, res) => {
 
     } catch (err) {
         console.log(err)
-        res.status(400).json({ messsage: "error" })
+        res.status(400).json({ message: "error" })
 
     }
 
@@ -108,4 +107,4 @@ const logout = async (req, res) => {
     });
 }
 
-module.exports = { register, login,logout };
+module.exports = { register, login, logout };
