@@ -1,11 +1,17 @@
 const config = require('dotenv')
 const express = require('express');
-const AuthDB = require('./models/authModel.js')
+
+
 const mongoose = require("mongoose");
+
+
 const cors = require('cors');
 const cookieParser = require('cookie-parser')
 //Routes
 const AuthRoutes = require('./routes/authRoute');
+const ContactRoutes = require('./routes/contactRoute.js')
+
+
 
 const app = express();
 const PORT = 5001;
@@ -20,7 +26,8 @@ app.use(express.urlencoded({ extended: true }));
 
 require('dotenv').config();
 
-app.use('/auth',AuthRoutes )
+app.use('/auth', AuthRoutes );
+app.use('/recenzii', ContactRoutes);
 
 
 
