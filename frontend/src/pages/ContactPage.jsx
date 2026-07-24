@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+import instance from '../utility/axios.js'
 function ContactPage() {
     const [formData, setFormData] = useState({
         nume: '',
@@ -7,30 +9,45 @@ function ContactPage() {
         subiect: '',
         mesaj: ''
     });
-
+        const navigate = useNavigate();
+    
     const [trimis, setTrimis] = useState(false);
-    const [eroare, setEroare] = useState(''); // 1. Starea pentru eroare
+    const [eroare, setEroare] = useState('');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setEroare(''); // Resetează eroarea la fiecare trimitere
+        setEroare('');
 
         if (!formData.nume || !formData.email || !formData.subiect || !formData.mesaj) {
             setEroare('Te rog să completezi toate câmpurile!');
             return;
         }
+        try {
 
-        console.log('Mesaj trimis:', formData);
+            const response = await instance.post('/recenzii/send',
+                {
+                    name: formData.nume,
+                    email: formData.email,
+                    subiect: formData.subiect,
+                    recenzie: formData.recenzie
+                }
+            );
+            
+            console.log('Înregistrare reușită:', response.data);
+            navigate('/');
+            
+            setTrimis(true);
+            setFormData({ nume: '', email: '', subiect: '', mesaj: '' });
 
-        setTrimis(true);
-        setFormData({ nume: '', email: '', subiect: '', mesaj: '' });
-
-        setTimeout(() => setTrimis(false), 5000);
+            setTimeout(() => setTrimis(false), 5000);
+        } catch (err) {
+            console.log(err)
+        }
     };
 
     return (
@@ -46,7 +63,6 @@ function ContactPage() {
                     </p>
                 </div>
 
-                {/* 2. Câmpul roșu de eroare (exact ca la Login/Register) */}
                 {eroare && (
                     <div className="rounded-md bg-red-50 p-3 text-sm text-red-600 border border-red-200 animate-pulse">
                         {eroare}
